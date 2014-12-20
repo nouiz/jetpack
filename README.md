@@ -12,6 +12,11 @@ Machine learning tools are notorious for having byzantine dependencies and often
 * Spark MLlib
 * Vowpal Wabbit (VW)
 
+## Getting started
+* First step is to [Install Docker on Mac OS X](https://github.com/boot2docker/osx-installer/releases/download/v1.4.1/Boot2Docker-1.4.1.pkg). 
+* Once Boot2Docker has been installed, launch it from Spotlight
+* In the terminal window with the title "Boot2Docker for OSX" go to the jetpack directory and start the build process
+
 ```
 ./build.sh julia
 ```
