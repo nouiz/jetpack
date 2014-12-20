@@ -1,4 +1,1 @@
-#docker build -t jetpack .
-#docker run -t -i jetpack -p 8998:8998
-
-docker build -t jetpack/torch7 toch7/.
+./build.sh
