@@ -10,10 +10,14 @@
 * Spark MLlib
 * Vowpal Wabbit (VW)
 
+```
 ./build.sh julia
+```
 
 or 
 
+```
 ./build.sh 
+```
 
 to build all projects
