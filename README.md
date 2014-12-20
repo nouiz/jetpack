@@ -14,10 +14,10 @@
 ./build.sh julia
 ```
 
-or 
+or to build all projects
 
 ```
 ./build.sh 
 ```
 
-to build all projects
+
