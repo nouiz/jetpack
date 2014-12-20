@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 
-images=`ls -d */ | sed 's/\///g'`
+if [ -z "$1" ]; then
+  images=`ls -d */ | sed 's/\///g'`
+else 
+  images=$1
+fi
 
 function error_exit {
 	echo "$1" 1>&2
