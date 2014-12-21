@@ -76,6 +76,7 @@ WORKDIR /home/juser
 # 8998: ipython port for julia
 EXPOSE  4200 8000 8998
 
+RUN ipython profile create julia
 RUN julia -e 'Pkg.init(); Pkg.add("IJulia"); Pkg.add("PyPlot"); Pkg.add("SIUnits"); Pkg.add("Gadfly"); Pkg.add("DataStructures"); Pkg.add("HDF5"); Pkg.add("Iterators"); Pkg.add("MCMC"); Pkg.add("NumericExtensions"); Pkg.add("SymPy"); Pkg.add("Interact"); Pkg.add("Roots");'
 RUN julia -e 'Pkg.add("DataFrames"); Pkg.add("RDatasets"); Pkg.add("Distributions"); Pkg.add("SVM"); Pkg.add("Clustering"); Pkg.add("GLM"); Pkg.add("MCMC");'
 RUN julia -e 'Pkg.add("Optim"); Pkg.add("JuMP"); Pkg.add("GLPKMathProgInterface"); Pkg.add("Clp"); Pkg.add("NLopt"); Pkg.add("Ipopt");'
@@ -84,5 +85,4 @@ RUN julia -e 'Pkg.add("Images"); Pkg.add("ImageView"); Pkg.add("WAV"); Pkg.add("
 RUN julia -e 'Pkg.add("BayesNets"); Pkg.add("PGFPlots"); Pkg.add("GraphLayout");'
 RUN julia -e 'Pkg.add("Stan");'
 
-CMD ipython notebook --profile julia --no-browser --ip 0.0.0.0 --port 8998 
-#--notebook-dir=/root/notebooks
+CMD ipython notebook --profile julia --no-browser --ip 0.0.0.0 --port 8998  --notebook-dir=/home/juser
