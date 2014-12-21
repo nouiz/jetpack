@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-#expose 8000-9000 tcp/udp ports
+#nat 8000-9000 tcp/udp ports from virtualbox
 if [ ! -f ".nat" ]; then 
   for i in {8000..9000}; do
     VBoxManage controlvm "boot2docker-vm" natpf1 "tcp-port$i,tcp,,$i,,$i";
