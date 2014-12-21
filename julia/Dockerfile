@@ -84,4 +84,5 @@ RUN julia -e 'Pkg.add("Images"); Pkg.add("ImageView"); Pkg.add("WAV"); Pkg.add("
 RUN julia -e 'Pkg.add("BayesNets"); Pkg.add("PGFPlots"); Pkg.add("GraphLayout");'
 RUN julia -e 'Pkg.add("Stan");'
 
-RUN ipython notebook --profile julia --no-browser --ip 0.0.0.0 --port 8998 & 
+CMD ipython notebook --profile julia --no-browser --ip 0.0.0.0 --port 8998 
+#--notebook-dir=/root/notebooks
