@@ -88,4 +88,3 @@ RUN julia -e 'Pkg.add("Stan");'
 
 RUN git clone https://github.com/StartupML/scipy_2014_julia
 CMD ipython notebook --profile julia --no-browser --ip 0.0.0.0 --port 8998
-#CMD ipython notebook --profile julia --notebook-dir=/home/juser
