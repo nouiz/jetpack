@@ -85,6 +85,9 @@ RUN julia -e 'Pkg.add("Cairo");'
 RUN julia -e 'Pkg.add("Images"); Pkg.add("ImageView"); Pkg.add("WAV"); Pkg.add("ODE"); Pkg.add("Sundials"); Pkg.add("LinearLeastSquares");'
 RUN julia -e 'Pkg.add("BayesNets"); Pkg.add("PGFPlots"); Pkg.add("GraphLayout");'
 RUN julia -e 'Pkg.add("Stan");'
+RUN julia -e 'Pkg.add("PyCall");'
+RUN julia -e 'Pkg.add("DecisionTree");'
 
 RUN git clone https://github.com/StartupML/scipy_2014_julia
+RUN wget http://ieor.berkeley.edu/~aaswani/sp14_ieor290a/homeworks/winequality-red.csv
 CMD ipython notebook --profile julia --no-browser --ip 0.0.0.0 --port 8998
