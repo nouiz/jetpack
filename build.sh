@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 
 
+function get_host {
+    local __resultvar=$1
+    #local myresult="$(expr substr $(uname -s) 1 5)"
+    local myresult="$(uname -s)"
+    eval $__resultvar="'$myresult'"
+}
 function run_as_sudo {
     get_host host_result
 
@@ -14,6 +20,13 @@ function run_as_sudo {
 	$@
     fi
 }
+function linux_build_prerequisite {
+    echo  "We need a sudoer password to add you to the docker group."
+    sudo usermod -a -G docker $USER
+}
+function windows_build_prerequisite {
+    echo -n ""
+}
 
 function mac_build_prerequisite {
     #nat 8000-9000 tcp/udp ports from virtualbox
@@ -24,13 +37,15 @@ function mac_build_prerequisite {
 	    touch .nat
 	done
     fi 
-}
 
-function get_host {
-    local __resultvar=$1
-    #local myresult="$(expr substr $(uname -s) 1 5)"
-    local myresult="$(uname -s)"
-    eval $__resultvar="'$myresult'"
+    #must run from boot2docker
+    if [ -z DOCKER_HOST ]; then
+	error_exit "not in boot2docker"
+    fi
+}
+function error_exit {
+	echo "$1" 1>&2
+	exit 1
 }
 
 if [ "$(uname)" == "Darwin"]; then
@@ -39,9 +54,11 @@ if [ "$(uname)" == "Darwin"]; then
     echo "done!"
 elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
     echo -n "Preparing to build Linux prerequisites..."
+    linux_build_prerequisite
     echo "done!"
 elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
     echo -n "Preparing to build Windows prerequisites..."
+    windows_build_prerequisite
     echo "done!"
 fi
 
@@ -52,21 +69,6 @@ else
   images=$1
 fi
 
-function error_exit {
-	echo "$1" 1>&2
-	exit 1
-}
-
-get_host host_result
-#must run from boot2docker
-if [ -z DOCKER_HOST ] && [ $host_result="Darwin" ]; then
-  error_exit "not in boot2docker"
-fi
-
-if [ "$(id -u)" -ne 0 ] && [ $result="Linux"  ]; then
-    echo  "We need a sudoer password to add you to the docker group."
-    sudo usermod -a -G docker $USER
-fi
 
 echo "Starting builds"
 for i in $images; do
