@@ -1,5 +1,20 @@
 #!/usr/bin/env bash
 
+
+function run_as_sudo {
+    get_host host_result
+
+    if [ $host_result="Linux" ]; then
+	echo -n "We need sudoer password for this command: "
+	echo $@
+	sudo $@
+    elif [ $host_result="Darwin"]; then
+	$@
+    elif [ $host_result="MINGW32_NT"]; then
+	$@
+    fi
+}
+
 function mac_build_prerequisite {
     #nat 8000-9000 tcp/udp ports from virtualbox
     if [ ! -f ".nat" ]; then 
@@ -42,9 +57,9 @@ function error_exit {
 	exit 1
 }
 
-get_host result
+get_host host_result
 #must run from boot2docker
-if [ -z DOCKER_HOST ] && [ $result="Darwin" ]; then
+if [ -z DOCKER_HOST ] && [ $host_result="Darwin" ]; then
   error_exit "not in boot2docker"
 fi
 
@@ -55,5 +70,5 @@ fi
 
 echo "Starting builds"
 for i in $images; do
-  docker build -t "$i" "$i"/.
+    run_as_sudo docker build -t "$i" "$i"/.
 done
