@@ -5,7 +5,7 @@ case "$1" in
   ;;
   theano)
     docker run -d -p 8999:8999 theano
-    open http://localhost:8999
+    sleep 2 && open http://localhost:8999
   ;;
   vw)
     docker run -it --rm vowpal_wabbit vw
