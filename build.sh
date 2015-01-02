@@ -6,7 +6,7 @@ function get_host {
     #local myresult="$(expr substr $(uname -s) 1 5)"
     local myresult_s="$(uname -s)"
     if [ $myresult_s = "Darwin" ]; then
-	eval $__resultvar="$myresult_s'"
+	eval $__resultvar="'$myresult_s'"
     else
 	local myresult="$(uname -o)"
 	eval $__resultvar="'$myresult'"
