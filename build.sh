@@ -48,7 +48,7 @@ function error_exit {
 	exit 1
 }
 
-if [ "$(uname)" == "Darwin"]; then
+if [ "$(uname)" == "Darwin" ]; then
     echo -n "Preparing to build Macintosh prerequisites..."    
     mac_build_prerequisite
     echo "done!"
