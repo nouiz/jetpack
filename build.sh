@@ -21,7 +21,7 @@ function run_as_sudo {
 	sudo $@
     elif [ $host_result = "Darwin" ]; then
 	$@
-    elif [ $host_result = "MINGW32_NT" ] || [$host_result = "Cygwin" ]; then
+    elif [ $host_result = "MINGW32_NT" ] || [ $host_result = "Cygwin" ]; then
 	$@
     fi
 }
