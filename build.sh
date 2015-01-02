@@ -4,8 +4,13 @@
 function get_host {
     local __resultvar=$1
     #local myresult="$(expr substr $(uname -s) 1 5)"
-    local myresult="$(uname -o)"
-    eval $__resultvar="'$myresult'"
+    local myresult_s="$(uname -s)"
+    if [ $myresult_s = "Darwin" ]; then
+	eval $__resultvar="$myresult_s'"
+    else
+	local myresult="$(uname -o)"
+	eval $__resultvar="'$myresult'"
+    fi
 }
 function run_as_sudo {
     get_host host_result
