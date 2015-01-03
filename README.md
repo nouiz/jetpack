@@ -8,9 +8,9 @@ Machine learning tools are notorious for having byzantine dependencies and often
 * GraphLab
 * H2O
 * Julia
+* MLlib
 * Theano
 * Torch7
-* Spark MLlib
 * Vowpal Wabbit (VW)
 
 ## Getting started
@@ -18,7 +18,7 @@ Machine learning tools are notorious for having byzantine dependencies and often
 * Once Boot2Docker has been installed, launch it from Spotlight
 * In the terminal window with the title "Boot2Docker for OSX" go to the jetpack directory and start the build process
 
-to build an individual image, provide it as an arguement to the build.sh script.  Currently the following individual builds are supported: deeplearning4j, graphlab, h2o, julia, theano, torch7, spark_mllib, vw 
+To build an individual image, provide it as an arguement to the build.sh script.  Currently the following individual builds are supported: deeplearning4j, graphlab, h2o, julia, theano, torch7 & vw 
 
 ```
 ./build.sh julia
