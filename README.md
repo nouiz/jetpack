@@ -5,8 +5,8 @@ Machine learning tools are notorious for having byzantine dependencies and often
 ## Currently supported tools
 
 * Deeplearning4J
+* GraphLab
 * Julia
-* PyMC
 * Theano
 * Torch7
 * Spark MLlib
@@ -18,7 +18,7 @@ Machine learning tools are notorious for having byzantine dependencies and often
 * In the terminal window with the title "Boot2Docker for OSX" go to the jetpack directory and start the build process
 
 ```
-./build.sh julia
+./build.sh julia (or theano, graphlab, torch7, spark ...)
 ```
 
 or to build all tools
@@ -27,4 +27,9 @@ or to build all tools
 ./build.sh 
 ```
 
+to run the docker image
+
+```
+./run.sh julia (or theano, graphlab, torch7, spark ...)
+```
 
