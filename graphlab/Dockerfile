@@ -1,31 +1,30 @@
-FROM ubuntu:precise
-MAINTAINER joshjdevl < joshjdevl [at] gmail {dot} com>
+FROM ubuntu
 
-RUN apt-get update && apt-get -y install python-software-properties software-properties-common
-RUN add-apt-repository "deb http://archive.ubuntu.com/ubuntu $(lsb_release -sc) universe"
+# make sure the package repository is up to date
+RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" >> /etc/apt/sources.list
 RUN apt-get update
 
-RUN add-apt-repository ppa:apt-fast/stable
-RUN apt-get update
-RUN apt-get -y install apt-fast
+# install basic
+RUN apt-get install -y build-essential gfortran g++ libopenblas-dev git wget libxrender1 libfontconfig1 libsm6 libglib2.0-0 libfreetype6
 
-RUN apt-fast -y install wget
-RUN apt-fast update
-RUN apt-fast install -y openssh-server
-RUN mkdir /var/run/sshd
-RUN /usr/sbin/sshd
-RUN echo "root:josh" | chpasswd
+RUN wget --quiet http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh && \
+    bash Miniconda-latest-Linux-x86_64.sh -b -p /opt/miniconda && \
+    rm Miniconda-latest-Linux-x86_64.sh
+ENV PATH /opt/miniconda/bin:$PATH
+RUN chmod -R a+rx /opt/miniconda
 
-RUN apt-fast -y install gcc g++ build-essential libopenmpi-dev openmpi-bin default-jdk cmake zlib1g-dev git vim
-RUN apt-fast -y install python-dev python-pip
+# Install PyData modules and IPython dependencies
+RUN conda update --quiet --yes conda && \
+    conda install --quiet --yes numpy scipy pandas matplotlib cython pyzmq scikit-learn seaborn six statsmodels pip tornado jinja2 sphinx pygments nose readline sqlalchemy 
 
-RUN mkdir /graphlab && git clone https://github.com/graphlab-code/graphlab.git
-ADD CMakeLists.txt.patch /graphlab/CMakeLists.txt.patch
-RUN cd /graphlab && patch < CMakeLists.txt.patch
-RUN cd /graphlab && ./configure
-RUN pip install GraphLab-Create
+# Set up IPython kernel
+RUN pip install ipython
 
-RUN cd /graphlab/release && make -j 2
-RUN cd /graphlab/release && make install
 
-RUN pip install --upgrade graphlab-create
+RUN pip install graphlab-create==1.2.1
+
+RUN python -c "import numpy, scipy, pandas, matplotlib, matplotlib.pyplot, sklearn, seaborn, statsmodels, graphlab"
+
+RUN wget http://graphlab.com/learn/gallery/notebooks/five_line_recommender.ipynb
+
+CMD ipython notebook --no-browser --ip 0.0.0.0 --port 8997
