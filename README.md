@@ -36,3 +36,10 @@ to run the docker image
 ./run.sh julia (or theano, graphlab, torch7, mllib ...)
 ```
 
+to clean up (kill, remove container and remove image)
+
+```
+./clean.sh 
+```
+
+
