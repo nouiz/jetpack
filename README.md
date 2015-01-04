@@ -1,4 +1,4 @@
-#Docker Images for Machine Learning Tools
+#Machine Learning Tools in Docker
 
 ![Jetpack](http://farm4.static.flickr.com/3581/3509154032_92f7c011c8_m.jpg)
 
