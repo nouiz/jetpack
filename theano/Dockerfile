@@ -31,4 +31,7 @@ RUN cd pylearn2 && python setup.py develop
 # Test
 RUN python -c "import numpy, scipy, pandas, matplotlib, matplotlib.pyplot, sklearn, seaborn, statsmodels, theano"
 
+RUN wget http://ai.stanford.edu/~amaas/data/sentiment/aclImdb_v1.tar.gz
+RUN tar xvzf aclImdb_v1.tar.gz
+
 CMD ipython notebook --no-browser --ip 0.0.0.0 --port 8999
