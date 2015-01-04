@@ -1,5 +1,7 @@
 #Docker Images for Machine Learning Tools
 
+![Jetpack](http://farm4.static.flickr.com/3581/3509154032_92f7c011c8_m.jpg)
+
 Machine learning tools are notorious for having byzantine dependencies and often academic code quality. This makes them hard to install and configure correctly across different machines and operating systems.  At  [Startup.ML](http://startup.ml/) we have been using Docker to simplify the process of getting these tools on our machines.
 
 ## Currently supported tools
