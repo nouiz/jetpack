@@ -4,19 +4,19 @@
 function get_host {
     local __resultvar=$1
     #local myresult="$(expr substr $(uname -s) 1 5)"
-    local myresult="$(uname -s)"
+    local myresult="$(uname -o)"
     eval $__resultvar="'$myresult'"
 }
 function run_as_sudo {
     get_host host_result
 
-    if [ $host_result="Linux" ]; then
+    if [ $host_result = "GNU/Linux" ]; then
 	echo -n "We need sudoer password for this command: "
 	echo $@
 	sudo $@
-    elif [ $host_result="Darwin"]; then
+    elif [ $host_result = "Darwin" ]; then
 	$@
-    elif [ $host_result="MINGW32_NT"]; then
+    elif [ $host_result = "MINGW32_NT" ] || [$host_result = "Cygwin" ]; then
 	$@
     fi
 }
@@ -52,11 +52,11 @@ if [ "$(uname)" == "Darwin" ]; then
     echo -n "Preparing to build Macintosh prerequisites..."    
     mac_build_prerequisite
     echo "done!"
-elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
+elif [ "$(expr substr $(uname -s) 1 5)" = "GNU/Linux" ]; then
     echo -n "Preparing to build Linux prerequisites..."
     linux_build_prerequisite
     echo "done!"
-elif [ "$(expr substr $(uname -s) 1 10)" == "MINGW32_NT" ]; then
+elif [ "$(expr substr $(uname -s) 1 10)" = "MINGW32_NT" ]; then
     echo -n "Preparing to build Windows prerequisites..."
     windows_build_prerequisite
     echo "done!"
