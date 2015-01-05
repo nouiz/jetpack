@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
+#!/bin/sh
 
-
-function get_host {
+get_host() {
     local __resultvar=$1
     #local myresult="$(expr substr $(uname -s) 1 5)"
     local myresult_s="$(uname -s)"
@@ -12,7 +12,7 @@ function get_host {
 	eval $__resultvar="'$myresult'"
     fi
 }
-function run_as_sudo {
+run_as_sudo() {
     get_host host_result
 
     if [ $host_result = "GNU/Linux" ]; then
@@ -25,15 +25,15 @@ function run_as_sudo {
 	$@
     fi
 }
-function linux_build_prerequisite {
+linux_build_prerequisite() {
     echo  "We need a sudoer password to add you to the docker group."
     sudo usermod -a -G docker $USER
 }
-function windows_build_prerequisite {
+windows_build_prerequisite() {
     echo -n ""
 }
 
-function mac_build_prerequisite {
+mac_build_prerequisite() {
     #nat 8000-9000 tcp/udp ports from virtualbox
     if [ ! -f ".nat" ]; then 
 	for i in {8000..9000}; do
@@ -48,7 +48,7 @@ function mac_build_prerequisite {
 	error_exit "not in boot2docker"
     fi
 }
-function error_exit {
+error_exit() {
 	echo "$1" 1>&2
 	exit 1
 }
