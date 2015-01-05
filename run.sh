@@ -18,4 +18,7 @@ case "$1" in
   vw)
     docker run -it --rm vowpal_wabbit vw
   ;;
+  mllib)
+    docker run -i -t mllib /etc/bootstrap.sh -bash
+  ;;
 esac
