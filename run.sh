@@ -1,4 +1,4 @@
-
+#!/usr/bin/env bash
 
 usage="$(basename "$0") [package] -- run the selected package and have it connect to the outside
 
