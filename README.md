@@ -51,7 +51,3 @@ for the current user, run: `sudo gpasswd -a ${USER} docker`.
 
 See [docker documentation](https://docs.docker.com/installation/ubuntulinux/#giving-non-root-access)
 for more detail.
-
-The `run.sh` command do not open the web browser to the right
-page. Open the web page `http://localhost:8999`. The port number
-change for each docker image.
