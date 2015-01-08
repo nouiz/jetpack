@@ -27,4 +27,8 @@ RUN python -c "import numpy, scipy, pandas, matplotlib, matplotlib.pyplot, sklea
 
 RUN wget http://graphlab.com/learn/gallery/notebooks/five_line_recommender.ipynb
 
+RUN (mkdir -p ~/.graphlab && echo "[Product]\nproduct_key=3759-3AB0-3EE5-49E1-BE08-B3BA-9707-49F4" > ~/.graphlab/config && echo "Configuration file written") || echo "Configuration file not written"
+
+ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/usr/local/lib
+
 CMD ipython notebook --no-browser --ip 0.0.0.0 --port 8997
