@@ -15,7 +15,7 @@ RUN chmod -R a+rx /opt/miniconda
 
 # Install PyData modules and IPython dependencies
 RUN conda update --quiet --yes conda && \
-    conda install --quiet --yes numpy scipy pandas matplotlib cython pyzmq scikit-learn seaborn six statsmodels theano pip tornado jinja2 sphinx pygments nose readline sqlalchemy 
+    conda install --quiet --yes numpy scipy pandas matplotlib cython pyzmq scikit-learn seaborn six statsmodels pip tornado jinja2 sphinx pygments nose readline sqlalchemy
 
 # Set up IPython kernel
 RUN pip install ipython 
@@ -23,6 +23,13 @@ RUN pip install ipython
 # Clean up
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 RUN conda clean -y -t
+
+# Theano
+# We need a recent version, more recent then the last release 0.6.
+# I hard code a commit to easy reproducability.
+# But this could change just before the presentation.
+RUN git clone git://github.com/Theano/Theano.git
+RUN cd Theano && git checkout f8bd5b80a3 && python setup.py develop
 
 # pylearn2
 RUN git clone git://github.com/lisa-lab/pylearn2.git
