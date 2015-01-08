@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-#!/bin/sh
 
 get_host() {
     local __resultvar=$1
