@@ -26,7 +26,7 @@ case "$1" in
   ;;
   h2o)
     docker run -d -p 8996:8996 h2o
-    sleep 2 && open http://localhost:8996
+    sleep 3 && open http://localhost:8996
   ;;
   julia)
     docker run -d -p 8998:8998 julia
