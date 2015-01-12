@@ -68,7 +68,8 @@ fi
 
 #build only argument otherwise all directories
 if [ -z "$1" ]; then
-  images=`ls -d */ | sed 's/\///g'`
+  images=`ls -d */ | sed 's/\///g' |grep -iv torch |grep -iv vowpal`
+  echo $images
 else 
   images=$1
 fi
