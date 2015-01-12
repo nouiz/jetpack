@@ -1,96 +1,29 @@
-# Creates pseudo distributed hadoop 2.6.0
-#
-# docker build -t sequenceiq/hadoop .
+FROM centos:centos6
 
-FROM sequenceiq/pam:centos-6.5
-MAINTAINER SequenceIQ
+MAINTAINER Adam Gibson
 
-USER root
+RUN yum -y install lzo lzo-devel blas sudo wget git
+RUN wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
+RUN sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
+RUN yum install -y apache-maven
+RUN wget -q -O /tmp/jdk-7u67-linux-x64.rpm --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.rpm
+RUN yum -y localinstall /tmp/jdk-7u67-linux-x64.rpm
 
-# install dev tools
-RUN yum install -y curl which tar sudo openssh-server openssh-clients rsync
-# update libselinux. see https://github.com/sequenceiq/hadoop-docker/issues/14
-RUN yum update -y libselinux
+RUN rpm --import http://archive.cloudera.com/cdh4/redhat/6/x86_64/cdh/RPM-GPG-KEY-cloudera
 
-# passwordless ssh
-RUN ssh-keygen -q -N "" -t dsa -f /etc/ssh/ssh_host_dsa_key
-RUN ssh-keygen -q -N "" -t rsa -f /etc/ssh/ssh_host_rsa_key
-RUN ssh-keygen -q -N "" -t rsa -f /root/.ssh/id_rsa
-RUN cp /root/.ssh/id_rsa.pub /root/.ssh/authorized_keys
+COPY inst/cdh4.repo /etc/yum.repos.d/cdh4.repo
+COPY inst/cloudera-gplextras4.repo /etc/yum.repos.d/cloudera-gplextras4.repo
 
+RUN yum -y install hadoop hadoop-client
+RUN yum -y install  hadoop-yarn-resourcemanager hadoop-lzo-cdh4
+RUN git clone git@github.com:SkymindIO/hadoop-example-native.git
+RUN cd hadoop-example-native && mvn clean install -DskipTests
+RUN rm /etc/hadoop/conf
+RUN mkdir /etc/hadoop/conf
+RUN mkdir /data
+RUN chmod 777 /data
 
-# java
-RUN curl -LO 'http://download.oracle.com/otn-pub/java/jdk/7u51-b13/jdk-7u51-linux-x64.rpm' -H 'Cookie: oraclelicense=accept-securebackup-cookie'
-RUN rpm -i jdk-7u51-linux-x64.rpm
-RUN rm jdk-7u51-linux-x64.rpm
+COPY inst/run.sh /run.sh
 
-ENV JAVA_HOME /usr/java/default
-ENV PATH $PATH:$JAVA_HOME/bin
-
-# hadoop
-RUN curl -s http://www.eu.apache.org/dist/hadoop/common/hadoop-2.6.0/hadoop-2.6.0.tar.gz | tar -xz -C /usr/local/
-RUN cd /usr/local && ln -s ./hadoop-2.6.0 hadoop
-
-ENV HADOOP_PREFIX /usr/local/hadoop
-ENV HADOOP_COMMON_HOME /usr/local/hadoop
-ENV HADOOP_HDFS_HOME /usr/local/hadoop
-ENV HADOOP_MAPRED_HOME /usr/local/hadoop
-ENV HADOOP_YARN_HOME /usr/local/hadoop
-ENV HADOOP_CONF_DIR /usr/local/hadoop/etc/hadoop
-ENV YARN_CONF_DIR $HADOOP_PREFIX/etc/hadoop
-
-RUN sed -i '/^export JAVA_HOME/ s:.*:export JAVA_HOME=/usr/java/default\nexport HADOOP_PREFIX=/usr/local/hadoop\nexport HADOOP_HOME=/usr/local/hadoop\n:' $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
-RUN sed -i '/^export HADOOP_CONF_DIR/ s:.*:export HADOOP_CONF_DIR=/usr/local/hadoop/etc/hadoop/:' $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
-#RUN . $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh
-
-RUN mkdir $HADOOP_PREFIX/input
-RUN cp $HADOOP_PREFIX/etc/hadoop/*.xml $HADOOP_PREFIX/input
-
-# pseudo distributed
-ADD core-site.xml.template $HADOOP_PREFIX/etc/hadoop/core-site.xml.template
-RUN sed s/HOSTNAME/localhost/ /usr/local/hadoop/etc/hadoop/core-site.xml.template > /usr/local/hadoop/etc/hadoop/core-site.xml
-ADD hdfs-site.xml $HADOOP_PREFIX/etc/hadoop/hdfs-site.xml
-
-ADD mapred-site.xml $HADOOP_PREFIX/etc/hadoop/mapred-site.xml
-ADD yarn-site.xml $HADOOP_PREFIX/etc/hadoop/yarn-site.xml
-
-RUN $HADOOP_PREFIX/bin/hdfs namenode -format
-
-# fixing the libhadoop.so like a boss
-RUN rm  /usr/local/hadoop/lib/native/*
-RUN curl -Ls http://dl.bintray.com/sequenceiq/sequenceiq-bin/hadoop-native-64-2.6.0.tar | tar -x -C /usr/local/hadoop/lib/native/
-
-ADD ssh_config /root/.ssh/config
-RUN chmod 600 /root/.ssh/config
-RUN chown root:root /root/.ssh/config
-
-# # installing supervisord
-# RUN yum install -y python-setuptools
-# RUN easy_install pip
-# RUN curl https://bitbucket.org/pypa/setuptools/raw/bootstrap/ez_setup.py -o - | python
-# RUN pip install supervisor
-#
-# ADD supervisord.conf /etc/supervisord.conf
-
-ADD bootstrap.sh /etc/bootstrap.sh
-RUN chown root:root /etc/bootstrap.sh
-RUN chmod 700 /etc/bootstrap.sh
-
-ENV BOOTSTRAP /etc/bootstrap.sh
-
-# workingaround docker.io build error
-RUN ls -la /usr/local/hadoop/etc/hadoop/*-env.sh
-RUN chmod +x /usr/local/hadoop/etc/hadoop/*-env.sh
-RUN ls -la /usr/local/hadoop/etc/hadoop/*-env.sh
-
-# fix the 254 error code
-RUN sed  -i "/^[^#]*UsePAM/ s/.*/#&/"  /etc/ssh/sshd_config
-RUN echo "UsePAM no" >> /etc/ssh/sshd_config
-RUN echo "Port 2122" >> /etc/ssh/sshd_config
-
-RUN service sshd start && $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh && $HADOOP_PREFIX/sbin/start-dfs.sh && $HADOOP_PREFIX/bin/hdfs dfs -mkdir -p /user/root
-RUN service sshd start && $HADOOP_PREFIX/etc/hadoop/hadoop-env.sh && $HADOOP_PREFIX/sbin/start-dfs.sh && $HADOOP_PREFIX/bin/hdfs dfs -put $HADOOP_PREFIX/etc/hadoop/ input
-
-CMD ["/etc/bootstrap.sh", "-d"]
-
-EXPOSE 50020 50090 50070 50010 50075 8031 8032 8033 8040 8042 49707 22 8088 8030
+ENTRYPOINT ["/bin/bash", "/run.sh" ]
+EXPOSE 50060
