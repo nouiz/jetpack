@@ -16,8 +16,11 @@ COPY inst/cloudera-gplextras4.repo /etc/yum.repos.d/cloudera-gplextras4.repo
 
 RUN yum -y install hadoop hadoop-client
 RUN yum -y install  hadoop-yarn-resourcemanager hadoop-lzo-cdh4
-RUN git clone git@github.com:SkymindIO/hadoop-example-native.git
+RUN git clone https://github.com/SkymindIO/hadoop-example-native
 RUN cd hadoop-example-native && mvn clean install -DskipTests
+RUN mv target/*.tar.gz ~
+RUN cd && tar xvf *.tar.gz
+RUN mv hadoop-example-1.0-SNAPSHOT/lib/ .
 RUN rm /etc/hadoop/conf
 RUN mkdir /etc/hadoop/conf
 RUN mkdir /data
