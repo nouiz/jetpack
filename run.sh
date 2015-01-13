@@ -42,4 +42,7 @@ case "$1" in
   mllib)
     docker run -i -t mllib /etc/bootstrap.sh -bash
   ;;
+  deeplearning4j)
+    docker image cod CDH4.6 tasktracker
+  ;;
 esac
