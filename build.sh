@@ -1,5 +1,25 @@
 #!/usr/bin/env bash
 
+usage="$(basename "$0") [package] -- run the selected package and have it connect to the outside
+
+where:
+    package - one of
+                deeplearning4j
+                graphlab
+                h2o
+                julia
+                theano
+                vw
+                mllib
+"
+
+if [ $# -eq 0 ]
+  then
+    echo "No arguments supplied"
+    echo "$usage"
+    exit 1
+fi
+
 get_host() {
     local __resultvar=$1
     #local myresult="$(expr substr $(uname -s) 1 5)"
