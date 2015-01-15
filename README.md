@@ -21,13 +21,13 @@ Machine learning tools are notorious for having byzantine dependencies and often
 To build an individual image, provide it as an arguement to the build.sh script.  Currently the following individual builds are supported: deeplearning4j, graphlab, h2o, julia, theano, torch7 & vw 
 
 ```
-./build.sh julia
+./build.sh julia (or theano, graphlab, h2o, mllib ...)
 ```
 
 to run the docker image
 
 ```
-./run.sh julia (or theano, graphlab, torch7, mllib ...)
+./run.sh julia (or theano, graphlab, h2o, mllib ...)
 ```
 
 # Troubleshooting
@@ -44,6 +44,8 @@ docker pull startupml/h2o
 docker pull startupml/mllib
 ...
 ```
+
+## Starting Over
 
 to clean up (kill, remove container and remove image)
 
