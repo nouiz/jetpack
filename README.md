@@ -30,9 +30,9 @@ to run the docker image
 ./run.sh julia (or theano, graphlab, torch7, mllib ...)
 ```
 
-## Troubleshooting
+# Troubleshooting
 
-# If you are having trouble with the build command, try a pre-built images
+## If you are having trouble with the build command, try a pre-built images
 
 ```
 docker pull startupml/julia
