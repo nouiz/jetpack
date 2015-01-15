@@ -16,9 +16,9 @@ Machine learning tools are notorious for having byzantine dependencies and often
 ## Getting started
 * First step is to [Install Docker on Mac OS X](https://github.com/boot2docker/osx-installer/releases/download/v1.4.1/Boot2Docker-1.4.1.pkg). 
 * Once Boot2Docker has been installed, launch it from Spotlight
-* In the terminal window with the title "Boot2Docker for OSX" go to the jetpack directory and start the build process
+* In the terminal window with the title "Boot2Docker for OSX" go to the jetpack directory and start the build process (*be patient, the builds can take some time*)
 
-To build an individual image, provide it as an arguement to the build.sh script. 
+To build an individual image, provide it as an argument to the build.sh script. 
 
 ```
 ./build.sh julia (or theano, graphlab, h2o, mllib ...)
