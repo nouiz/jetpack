@@ -54,24 +54,24 @@ windows_build_prerequisite() {
 
 mac_build_prerequisite() {
 
-   echo  "Giving the VM more memory."
-   boot2docker info
-   boot2docker poweroff
-   VBoxManage modifyvm boot2docker-vm --memory 4096
-   boot2docker up
-
-    #nat 8000-9000 tcp/udp ports from virtualbox
-    if [ ! -f ".nat" ]; then 
-	for i in {8000..9000}; do
-	    VBoxManage controlvm "boot2docker-vm" natpf1 "tcp-port$i,tcp,,$i,,$i";
-	    VBoxManage controlvm "boot2docker-vm" natpf1 "udp-port$i,udp,,$i,,$i";
-	    touch .nat
-	done
-    fi 
-
     #must run from boot2docker
     if [ -z DOCKER_HOST ]; then
-	error_exit "not in boot2docker"
+        error_exit "not in boot2docker"
+    fi
+
+    if [ ! -f ".nat" ]; then 
+        echo  "Giving the VM more memory."
+        boot2docker info
+        boot2docker poweroff
+        VBoxManage modifyvm boot2docker-vm --memory 4096
+        boot2docker up
+
+        echo  "Adding NAT ports 8000-9000."
+    	for i in {8000..9000}; do
+    	    VBoxManage controlvm "boot2docker-vm" natpf1 "tcp-port$i,tcp,,$i,,$i";
+    	    VBoxManage controlvm "boot2docker-vm" natpf1 "udp-port$i,udp,,$i,,$i";
+    	    touch .nat
+    	done
     fi
 }
 error_exit() {
