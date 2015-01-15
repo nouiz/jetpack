@@ -87,6 +87,10 @@ elif [ "$(expr substr $(uname -s) 1 5)" = "GNU/Linux" ]; then
     echo -n "Preparing to build Linux prerequisites..."
     linux_build_prerequisite
     echo "done!"
+elif [ "$(expr substr $(uname -s) 1 5)" = "Linux" ]; then
+    echo -n "Preparing to build Linux prerequisites..."
+    linux_build_prerequisite
+    echo "done!"
 elif [ "$(expr substr $(uname -s) 1 10)" = "MINGW32_NT" ]; then
     echo -n "Preparing to build Windows prerequisites..."
     windows_build_prerequisite
