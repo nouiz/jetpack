@@ -53,6 +53,13 @@ windows_build_prerequisite() {
 }
 
 mac_build_prerequisite() {
+
+   echo  "Giving the VM more memory."
+   boot2docker info
+   boot2docker poweroff
+   VBoxManage modifyvm boot2docker-vm --memory 4096
+   boot2docker up
+
     #nat 8000-9000 tcp/udp ports from virtualbox
     if [ ! -f ".nat" ]; then 
 	for i in {8000..9000}; do
