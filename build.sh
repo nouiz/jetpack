@@ -97,5 +97,5 @@ fi
 
 echo "Starting builds"
 for i in $images; do
-    run_as_sudo docker build -t "$i" "$i"/.
+    run_as_sudo docker build -t startupml/"$i" "$i"/.
 done
