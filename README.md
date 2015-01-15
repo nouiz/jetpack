@@ -32,11 +32,16 @@ to run the docker image
 
 # Troubleshooting
 
-## If you are having trouble with the build command, try a pre-built images
+## Pulling Images
+
+If you are having trouble with the build command, try the pre-built images
 
 ```
 docker pull startupml/julia
 docker pull startupml/theano
+docker pull startupml/graphlab
+docker pull startupml/h2o
+docker pull startupml/mllib
 ...
 ```
 
