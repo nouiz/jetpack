@@ -2,10 +2,11 @@ FROM centos:centos6
 
 MAINTAINER Adam Gibson
 
-RUN yum -y install lzo lzo-devel blas sudo wget git
-RUN wget http://repos.fedorapeople.org/repos/dchen/apache-maven/epel-apache-maven.repo -O /etc/yum.repos.d/epel-apache-maven.repo
-RUN sed -i s/\$releasever/6/g /etc/yum.repos.d/epel-apache-maven.repo
-RUN yum install -y apache-maven
+RUN yum -y install lzo lzo-devel blas sudo wget git tar
+RUN wget http://mirror.symnds.com/software/Apache/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz
+RUN tar xzvf apache-maven-3.2.5-bin.tar.gz
+RUN mv apache-maven-3.2.5 /opt/mvn
+RUN export PATH=$PATH:/opt/mvn/bin
 RUN wget -q -O /tmp/jdk-7u67-linux-x64.rpm --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" http://download.oracle.com/otn-pub/java/jdk/7u67-b01/jdk-7u67-linux-x64.rpm
 RUN yum -y localinstall /tmp/jdk-7u67-linux-x64.rpm
 
@@ -16,11 +17,7 @@ COPY inst/cloudera-gplextras4.repo /etc/yum.repos.d/cloudera-gplextras4.repo
 
 RUN yum -y install hadoop hadoop-client
 RUN yum -y install  hadoop-yarn-resourcemanager hadoop-lzo-cdh4
-RUN git clone https://github.com/SkymindIO/hadoop-example-native
-RUN cd hadoop-example-native && mvn clean install -DskipTests
-RUN mv target/*.tar.gz ~
-RUN cd && tar xvf *.tar.gz
-RUN mv hadoop-example-1.0-SNAPSHOT/lib/ .
+
 RUN rm /etc/hadoop/conf
 RUN mkdir /etc/hadoop/conf
 RUN mkdir /data
