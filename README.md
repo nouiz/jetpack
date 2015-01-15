@@ -24,16 +24,20 @@ To build an individual image, provide it as an arguement to the build.sh script.
 ./build.sh julia
 ```
 
-or to build all tools
-
-```
-./build.sh 
-```
-
 to run the docker image
 
 ```
 ./run.sh julia (or theano, graphlab, torch7, mllib ...)
+```
+
+## Troubleshooting
+
+# If you are having trouble with the build command, try a pre-built images
+
+```
+docker pull startupml/julia
+docker pull startupml/theano
+...
 ```
 
 to clean up (kill, remove container and remove image)
@@ -41,7 +45,6 @@ to clean up (kill, remove container and remove image)
 ```
 ./clean.sh 
 ```
-
 
 ## Linux specific
 
