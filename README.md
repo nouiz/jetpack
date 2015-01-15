@@ -57,6 +57,9 @@ to clean up (kill, remove container and remove image)
 The docker daemon must run as root. To be able to run the docker
 client as a normal user, add that user to the docker group. To do so
 for the current user, run: `sudo gpasswd -a ${USER} docker`.
-
 See [docker documentation](https://docs.docker.com/installation/ubuntulinux/#giving-non-root-access)
 for more detail.
+
+## No space left on device
+[Getting “no space left on device” errors with Boot2Docker?](https://docs.docker.com/articles/b2d_volume_resize/)
+

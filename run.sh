@@ -40,9 +40,10 @@ case "$1" in
     docker run -it --rm startupml/vowpal_wabbit vw
   ;;
   mllib)
-    docker run -i -t mllib /etc/bootstrap.sh -bash
+    docker run -i -t startupml/mllib /etc/bootstrap.sh -bash
   ;;
   deeplearning4j)
-    docker image cod CDH4.6 tasktracker
+    docker run -i -t startupml/deeplearning4j
+    #docker image cod CDH4.6 tasktracker
   ;;
 esac
