@@ -60,6 +60,6 @@ for the current user, run: `sudo gpasswd -a ${USER} docker`.
 See [docker documentation](https://docs.docker.com/installation/ubuntulinux/#giving-non-root-access)
 for more detail.
 
-## no space left on device
+## No space left on device
 [Getting “no space left on device” errors with Boot2Docker?](https://docs.docker.com/articles/b2d_volume_resize/)
 
