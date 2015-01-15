@@ -5,7 +5,7 @@ RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" >> /etc/ap
 RUN apt-get update
 
 # install basic
-RUN apt-get install -y build-essential gfortran g++ libopenblas-dev git wget libxrender1 libfontconfig1 libsm6 libglib2.0-0 libfreetype6
+RUN apt-get install -y build-essential gfortran g++ libopenblas-dev git wget libxrender1 libfontconfig1 libsm6 libglib2.0-0 libfreetype6 unzip
 
 RUN wget --quiet http://repo.continuum.io/miniconda/Miniconda-latest-Linux-x86_64.sh && \
     bash Miniconda-latest-Linux-x86_64.sh -b -p /opt/miniconda && \
@@ -25,10 +25,13 @@ RUN pip install graphlab-create==1.2.1
 
 RUN python -c "import numpy, scipy, pandas, matplotlib, matplotlib.pyplot, sklearn, seaborn, statsmodels, graphlab"
 
-RUN wget http://graphlab.com/learn/gallery/notebooks/five_line_recommender.ipynb
+RUN wget --no-check-certificate https://dato.com/learn/gallery/notebooks/five_line_recommender.ipynb
 
 RUN (mkdir -p ~/.graphlab && echo "[Product]\nproduct_key=3759-3AB0-3EE5-49E1-BE08-B3BA-9707-49F4" > ~/.graphlab/config && echo "Configuration file written") || echo "Configuration file not written"
 
 ENV LD_LIBRARY_PATH $LD_LIBRARY_PATH:/opt/miniconda/lib
+
+RUN wget --no-check-certificate https://s3-us-west-2.amazonaws.com/gl-training/next_ml_exercises.zip
+RUN unzip next_ml_exercises.zip -d next_ml_exercises
 
 CMD ipython notebook --no-browser --ip 0.0.0.0 --port 8997

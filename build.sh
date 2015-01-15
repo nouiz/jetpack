@@ -1,5 +1,25 @@
 #!/usr/bin/env bash
 
+usage="$(basename "$0") [package] -- run the selected package and have it connect to the outside
+
+where:
+    package - one of
+                deeplearning4j
+                graphlab
+                h2o
+                julia
+                theano
+                vw
+                mllib
+"
+
+if [ $# -eq 0 ]
+  then
+    echo "No arguments supplied"
+    echo "$usage"
+    exit 1
+fi
+
 get_host() {
     local __resultvar=$1
     #local myresult="$(expr substr $(uname -s) 1 5)"
@@ -68,7 +88,8 @@ fi
 
 #build only argument otherwise all directories
 if [ -z "$1" ]; then
-  images=`ls -d */ | sed 's/\///g'`
+  images=`ls -d */ | sed 's/\///g' |grep -iv torch |grep -iv vowpal |grep -iv deeplearning4j`
+  echo $images
 else 
   images=$1
 fi
@@ -76,5 +97,5 @@ fi
 
 echo "Starting builds"
 for i in $images; do
-    run_as_sudo docker build -t "$i" "$i"/.
+    run_as_sudo docker build -t startupml/"$i" "$i"/.
 done

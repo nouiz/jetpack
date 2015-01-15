@@ -4,7 +4,6 @@ Machine learning tools are notorious for having byzantine dependencies and often
 
 ## Currently supported tools
 
-* Deeplearning4J
 * GraphLab
 * H2O
 * Julia
@@ -16,32 +15,42 @@ Machine learning tools are notorious for having byzantine dependencies and often
 ## Getting started
 * First step is to [Install Docker on Mac OS X](https://github.com/boot2docker/osx-installer/releases/download/v1.4.1/Boot2Docker-1.4.1.pkg). 
 * Once Boot2Docker has been installed, launch it from Spotlight
-* In the terminal window with the title "Boot2Docker for OSX" go to the jetpack directory and start the build process
+* In the terminal window with the title "Boot2Docker for OSX" go to the jetpack directory and start the build process (*be patient, the builds can take some time*)
 
-To build an individual image, provide it as an arguement to the build.sh script.  Currently the following individual builds are supported: deeplearning4j, graphlab, h2o, julia, theano, torch7 & vw 
-
-```
-./build.sh julia
-```
-
-or to build all tools
+To build an individual image, provide it as an argument to the build.sh script. 
 
 ```
-./build.sh 
+./build.sh julia (or theano, graphlab, h2o, mllib ...)
 ```
 
 to run the docker image
 
 ```
-./run.sh julia (or theano, graphlab, torch7, mllib ...)
+./run.sh julia (or theano, graphlab, h2o, mllib ...)
 ```
+
+# Troubleshooting
+
+## Pulling Images
+
+If you are having trouble with the build command, try the pre-built images
+
+```
+docker pull startupml/julia
+docker pull startupml/theano
+docker pull startupml/graphlab
+docker pull startupml/h2o
+docker pull startupml/mllib
+...
+```
+
+## Starting Over
 
 to clean up (kill, remove container and remove image)
 
 ```
 ./clean.sh 
 ```
-
 
 ## Linux specific
 
