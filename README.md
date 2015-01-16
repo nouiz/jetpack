@@ -4,6 +4,7 @@ Machine learning tools are notorious for having byzantine dependencies and often
 
 ## Currently supported tools
 
+* Deeplearning4j
 * GraphLab
 * H2O
 * Julia
