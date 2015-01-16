@@ -33,7 +33,7 @@ get_host() {
 
 get_host host_result
 
-open() {
+myopen() {
     if [ $host_result = "GNU/Linux" ]; then
 	xdg-open $1
     else
@@ -46,19 +46,19 @@ case "$1" in
     echo "Please input your GraphLab Create product key:"
     read GRAPHLAB_PRODUCT_KEY
     docker run -e "GRAPHLAB_PRODUCT_KEY=$GRAPHLAB_PRODUCT_KEY" -d -p 8997:8997 startupml/graphlab
-    sleep 2 && open http://localhost:8997
+    sleep 2 && myopen http://localhost:8997
   ;;
   h2o)
     docker run -d -p 8996:8996 startupml/h2o
-    sleep 3 && open http://localhost:8996
+    sleep 3 && myopen http://localhost:8996
   ;;
   julia)
     docker run -d -p 8998:8998 startupml/julia
-    sleep 2 && open http://localhost:8998
+    sleep 2 && myopen http://localhost:8998
   ;;
   theano)
     docker run -d -p 8999:8999 startupml/theano
-    sleep 2 && open http://localhost:8999
+    sleep 2 && myopen http://localhost:8999
   ;;
   vw)
     docker run -it --rm startupml/vowpal_wabbit vw
