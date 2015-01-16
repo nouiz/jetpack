@@ -19,6 +19,28 @@ if [ $# -eq 0 ]
     exit 1
 fi
 
+get_host() {
+    local __resultvar=$1
+    #local myresult="$(expr substr $(uname -s) 1 5)"
+    local myresult_s="$(uname -s)"
+    if [ $myresult_s = "Darwin" ]; then
+	eval $__resultvar="'$myresult_s'"
+    else
+	local myresult="$(uname -o)"
+	eval $__resultvar="'$myresult'"
+    fi
+}
+
+get_host host_result
+
+open() {
+    if [ $host_result = "GNU/Linux" ]; then
+	xdg-open $1
+    else
+	open $1
+    fi
+}
+
 case "$1" in
   graphlab)
     echo "Please input your GraphLab Create product key:"

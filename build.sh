@@ -79,15 +79,13 @@ error_exit() {
 	exit 1
 }
 
-if [ "$(uname)" == "Darwin" ]; then
+get_host host_result
+
+if [ $host_result == "Darwin" ]; then
     echo -n "Preparing to build Macintosh prerequisites..."    
     mac_build_prerequisite
     echo "done!"
-elif [ "$(expr substr $(uname -s) 1 5)" = "GNU/Linux" ]; then
-    echo -n "Preparing to build Linux prerequisites..."
-    linux_build_prerequisite
-    echo "done!"
-elif [ "$(expr substr $(uname -s) 1 5)" = "Linux" ]; then
+elif [ $host_result = "GNU/Linux" ]; then
     echo -n "Preparing to build Linux prerequisites..."
     linux_build_prerequisite
     echo "done!"

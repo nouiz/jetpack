@@ -35,17 +35,14 @@ RUN cd Theano && git checkout f8bd5b80a3 && python setup.py develop
 RUN git clone git://github.com/lisa-lab/pylearn2.git
 RUN cd pylearn2 && python setup.py develop
 
-# DeepLearningTutorial, it contain the lstm example.
-RUN git clone git://github.com/lisa-lab/DeepLearningTutorials.git
-
 # Test
 RUN python -c "import numpy, scipy, pandas, matplotlib, matplotlib.pyplot, sklearn, seaborn, statsmodels, theano"
 
-# Get the dataset.
-RUN cd DeepLearningTutorials/data && wget --quiet http://www.iro.umontreal.ca/~lisa/deep/data/imdb.pkl.gz && gunzip imdb.pkl.gz
-
 # Get Theano exercices
 RUN git clone https://github.com/nouiz/nextml2015.git
+
+# Get the dataset.
+RUN wget --quiet http://www.iro.umontreal.ca/~lisa/deep/data/imdb.pkl.gz && gunzip imdb.pkl.gz
 
 
 CMD ipython notebook --no-browser --ip 0.0.0.0 --port 8999
