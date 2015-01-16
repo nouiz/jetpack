@@ -21,7 +21,9 @@ fi
 
 case "$1" in
   graphlab)
-    docker run -d -p 8997:8997 startupml/graphlab
+    echo "Please input your GraphLab Create product key:"
+    read GRAPHLAB_PRODUCT_KEY
+    docker run -e "GRAPHLAB_PRODUCT_KEY=$GRAPHLAB_PRODUCT_KEY" -d -p 8997:8997 startupml/graphlab
     sleep 2 && open http://localhost:8997
   ;;
   h2o)
